@@ -192,9 +192,10 @@ function App() {
 
   const displayEvents = alt1Available ? events : manualEvents;
   const detectedCount = displayEvents.length;
-  const upcomingCount = detectedCount + 1;
-  const upcomingPredictedStatus =
-    upcomingCount <= 2 || !missCalls.has(upcomingCount) ? "BLOCK" : "MISS";
+  const actionCount = detectedCount;
+  const nextActionCount = detectedCount + 1;
+  const actionPredictedStatus =
+    actionCount <= 2 || !missCalls.has(actionCount) ? "BLOCK" : "MISS";
   const findNextSpecialDefense = (start: number) => {
     for (let i = start; i <= 100; i++) {
       const def = nextDefenseForCall(i);
@@ -205,11 +206,10 @@ function App() {
     return null;
   };
 
-  const nextSpecial = findNextSpecialDefense(upcomingCount);
+  const nextSpecial = findNextSpecialDefense(actionCount);
   const nextSpecialCycle = nextSpecial ? nextSpecial.cycle : null;
   const nextSpecialName = nextSpecial ? nextSpecial.defense : "Block";
 
-  const nextActionCount = upcomingCount + 1;
   const nextActionPredictedStatus =
     nextActionCount <= 2 || !missCalls.has(nextActionCount) ? "BLOCK" : "MISS";
 
@@ -221,12 +221,12 @@ function App() {
           <div className="cycle-card">
             <div>
               <span className="label">Cycle</span>
-              <strong>{upcomingCount}</strong>
+              <strong>{detectedCount}</strong>
             </div>
             <div>
               <span className="label">Action</span>
-              <strong className={upcomingPredictedStatus === "MISS" ? "miss" : "block"}>
-                {upcomingPredictedStatus}
+              <strong className={actionPredictedStatus === "MISS" ? "miss" : "block"}>
+                {actionPredictedStatus}
               </strong>
             </div>
             <div>

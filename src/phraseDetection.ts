@@ -27,14 +27,22 @@ const regexAdjustments = (rawRegexString: string) => {
 const shadowPhrases = [
   `Shield us from your shadow`,
   `shield us from your shadow`
+
 ];
+
+const alphaNumeric = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 
 export const detectShieldPhrase = (text: string) => {
   const normalized = text.trim();
   const expression = shadowPhrases.map((phrase) => regexAdjustments(phrase)).join("|");
   const regex = new RegExp(`(${expression})`, "i");
+  const cleaned = alphaNumeric(normalized);
 
-  return regex.test(normalized) || /shield.*shadow/i.test(normalized);
+  return (
+    regex.test(normalized) ||
+    /shield.*shadow/i.test(normalized) ||
+    shadowPhrases.some((phrase) => cleaned.includes(alphaNumeric(phrase)))
+  );
 };
 
 export const nextDefenseForCall = (count: number) => {
