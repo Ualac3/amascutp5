@@ -56,7 +56,7 @@ export const nextDefenseForCall = (count: number) => {
     7: "Block",
     8: "Res",
     9: "Block",
-    10: "Cade (early)",
+    10: "Cade",
     11: "Block",
     12: "Res",
     13: "Immort",

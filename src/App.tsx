@@ -210,9 +210,12 @@ function App() {
     return null;
   };
 
-  const nextSpecial = findNextSpecialDefense(nextActionCount);
+  const nextSpecial = findNextSpecialDefense(actionCount);
   const nextSpecialCycle = nextSpecial ? nextSpecial.cycle : null;
   const nextSpecialName = nextSpecial ? nextSpecial.defense : "Block";
+  const followingSpecial = nextSpecial ? findNextSpecialDefense(nextSpecial.cycle + 1) : null;
+  const followingSpecialCycle = followingSpecial ? followingSpecial.cycle : null;
+  const followingSpecialName = followingSpecial ? followingSpecial.defense : "Block";
 
   return (
     <div className="app-shell">
@@ -253,6 +256,13 @@ function App() {
               <strong>
                 {nextSpecialName}
                 {nextSpecialCycle ? ` (cycle ${nextSpecialCycle})` : ""}
+              </strong>
+            </div>
+            <div>
+              <span className="label">Following defensive</span>
+              <strong>
+                {followingSpecialName}
+                {followingSpecialCycle ? ` (cycle ${followingSpecialCycle})` : ""}
               </strong>
             </div>
           </div>
