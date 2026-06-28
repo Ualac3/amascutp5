@@ -26,8 +26,8 @@ const regexAdjustments = (rawRegexString: string) => {
 
 const shadowPhrases = [
   `Shield us from your shadow`,
-  `shield us from your shadow`
-
+  `shield us from your shadow`,
+  `bb`
 ];
 
 const alphaNumeric = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -61,9 +61,7 @@ export const nextDefenseForCall = (count: number) => {
     12: "Res",
     13: "Immort",
     14: "Disrupt",
-    15: "Res",
-    16: "Cade",
-    17: "Cade",
+    15: "FINISH",
   };
 
   return map[count] ?? "Block";

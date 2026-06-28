@@ -11,7 +11,7 @@ shield us from your shadow
 shield us from your shadow
 shield us from your shadow`;
 
-const missCalls = new Set([3, 6, 8, 10, 12, 13, 14, 15, 16, 17]);
+const missCalls = new Set([3, 6, 8, 10, 12, 13, 14]);
 
 type ShadowEvent = {
   count: number;
@@ -41,6 +41,7 @@ const createNewReader = () => {
       mixColor(127, 169, 255),
       mixColor(0, 153, 0),
       mixColor(204, 51, 153),
+      mixColor(196, 184, 72),
     ],
   };
 
