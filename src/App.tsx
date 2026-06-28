@@ -16,7 +16,7 @@ const missCalls = new Set([3, 6, 8, 10, 12, 13, 14]);
 type ShadowEvent = {
   count: number;
   line: string;
-  status: "BLOCK" | "MISS";
+  status: "BLOCK" | "MISS" | "FINISH";
   nextDefense: string;
 };
 
@@ -151,7 +151,7 @@ function App() {
           if (detectShieldPhrase(line.text)) {
             setEvents((prev) => {
               const count = prev.length + 1;
-              const status = count <= 2 || !missCalls.has(count) ? "BLOCK" : "MISS";
+              const status = count === 15 ? "FINISH" : count <= 2 || !missCalls.has(count) ? "BLOCK" : "MISS";
               const nextDefense = nextDefenseForCall(count + 1);
               return [...prev, { count, line: line.text, status, nextDefense }];
             });
@@ -180,7 +180,7 @@ function App() {
         .filter((item) => item.detected)
         .map((item, index) => {
           const count = index + 1;
-          const status = count <= 2 || !missCalls.has(count) ? "BLOCK" : "MISS";
+          const status = count === 15 ? "FINISH" : count <= 2 || !missCalls.has(count) ? "BLOCK" : "MISS";
           return {
             count,
             line: item.line,
@@ -195,8 +195,11 @@ function App() {
   const detectedCount = displayEvents.length;
   const actionCount = detectedCount;
   const nextActionCount = detectedCount + 1;
-  const actionPredictedStatus =
-    actionCount <= 2 || !missCalls.has(actionCount) ? "BLOCK" : "MISS";
+  const getPredictedStatus = (count: number) =>
+    count === 15 ? "FINISH" : count <= 2 || !missCalls.has(count) ? "BLOCK" : "MISS";
+
+  const actionPredictedStatus = getPredictedStatus(actionCount);
+  const nextActionPredictedStatus = getPredictedStatus(nextActionCount);
   const findNextSpecialDefense = (start: number) => {
     for (let i = start; i <= 100; i++) {
       const def = nextDefenseForCall(i);
@@ -207,12 +210,9 @@ function App() {
     return null;
   };
 
-  const nextSpecial = findNextSpecialDefense(actionCount);
+  const nextSpecial = findNextSpecialDefense(nextActionCount);
   const nextSpecialCycle = nextSpecial ? nextSpecial.cycle : null;
   const nextSpecialName = nextSpecial ? nextSpecial.defense : "Block";
-
-  const nextActionPredictedStatus =
-    nextActionCount <= 2 || !missCalls.has(nextActionCount) ? "BLOCK" : "MISS";
 
   return (
     <div className="app-shell">
@@ -226,13 +226,25 @@ function App() {
             </div>
             <div>
               <span className="label">Action</span>
-              <strong className={actionPredictedStatus === "MISS" ? "miss" : "block"}>
+              <strong className={
+                actionPredictedStatus === "BLOCK"
+                  ? "block"
+                  : actionPredictedStatus === "FINISH"
+                  ? "finish"
+                  : "miss"
+              }>
                 {actionPredictedStatus}
               </strong>
             </div>
             <div>
               <span className="label">Next action</span>
-              <strong className={nextActionPredictedStatus === "MISS" ? "miss" : "block"}>
+              <strong className={
+                nextActionPredictedStatus === "BLOCK"
+                  ? "block"
+                  : nextActionPredictedStatus === "FINISH"
+                  ? "finish"
+                  : "miss"
+              }>
                 {nextActionPredictedStatus}
               </strong>
             </div>

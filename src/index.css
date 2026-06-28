@@ -130,6 +130,10 @@ textarea {
   color: #f97316;
 }
 
+.cycle-card .finish {
+  color: #ef4444;
+}
+
 .reset-row {
   display: flex;
   justify-content: center;
