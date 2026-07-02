@@ -26,8 +26,7 @@ const regexAdjustments = (rawRegexString: string) => {
 
 const shadowPhrases = [
   `Shield us from your shadow`,
-  `shield us from your shadow`,
-  `bb`
+  `shield us from your shadow`
 ];
 
 const alphaNumeric = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
